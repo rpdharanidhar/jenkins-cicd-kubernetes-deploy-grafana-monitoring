@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nodejs-app-task03
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+        - name: nodejs
+          image: rpdharanidhar/devops-task03:latest
+          ports:
+            - containerPort: 3030
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: dharani
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: dharani
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodejs-service-app-task03
+spec:
+  selector:
+    app: nodejs
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3030
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-mongodb-task03
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  env:
+    - name: MONGO_INITDB_ROOT_USERNAME
+      value: dharani
+    - name: MONGO_INITDB_ROOT_PASSWORD
+      value: dharani
+  type: ClusterIP

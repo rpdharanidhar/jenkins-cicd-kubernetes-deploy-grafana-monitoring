@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: my-mongodb-task03
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dharani
+      MONGO_INITDB_ROOT_PASSWORD: dharani
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+  nodejs:
+    build:  
+      context: .
+      dockerfile: Dockerfile
+    image: rpdharanidhar/devops-task03:latest
+    container_name: my-nodejs-app-task03
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

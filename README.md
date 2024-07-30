@@ -1,0 +1,1 @@
+this is a devops project that deploys the built docker image in kubernetes cluster locally with the quality gates check using the sonarqube via jenkins and automatically triggered when a github push action is done

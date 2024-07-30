@@ -1,0 +1,20 @@
+version: "1.0"
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logging in to Docker Hub"
+      - echo $password | docker login --username $username --password-stdin
+  build:
+    commands:
+      - echo "Building the Docker image"
+      - docker build -t rpdharanidhar/devops-task03:latest .
+  post_build:
+    commands:
+      - echo "Pushing the Docker image to Docker Hub"
+      - docker push rpdharanidhar/devops-task03:latest
+
+credentials:
+  username: "rpdharanidhar"
+  password: "dharanirp1482"
+  password_type: plaintext
